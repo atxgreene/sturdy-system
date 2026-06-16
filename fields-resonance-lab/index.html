@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laboratory of Fields &amp; Resonance — Greene Paleogenomic Museum VR</title>
+  <meta name="description" content="Interactive physics laboratory: electrostatics, boundary conditions, magnetic resonance, frequency, and vibration. A public hall of the Greene Paleogenomic Museum VR.">
+  <link rel="stylesheet" href="styles.css">
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.165.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+
+  <!-- Loading screen -->
+  <div id="loading-screen">
+    <div class="loading-inner">
+      <div class="lab-sigil">⊕</div>
+      <h1>Laboratory of Fields &amp; Resonance</h1>
+      <p>Greene Paleogenomic Museum VR</p>
+      <div class="loading-bar">
+        <div id="loading-progress"></div>
+      </div>
+      <p id="loading-status">Initializing chamber geometry...</p>
+      <button id="enter-lab-btn" style="display:none">Enter Laboratory</button>
+    </div>
+  </div>
+
+  <!-- UI overlay -->
+  <div id="ui-root">
+    <div id="hud"></div>
+    <div id="mode-panel"></div>
+    <div id="expert-panel"></div>
+    <div id="info-panel"></div>
+    <div id="safety-panel"></div>
+    <div id="crosshair">·</div>
+    <div id="notification"></div>
+  </div>
+
+  <!-- Three.js canvas -->
+  <canvas id="lab-canvas"></canvas>
+
+  <!-- Main application -->
+  <script type="module" src="app.js"></script>
+
+</body>
+</html>
