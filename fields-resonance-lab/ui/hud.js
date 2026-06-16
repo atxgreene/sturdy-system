@@ -99,7 +99,7 @@ export function initHUD() {
       <div class="lab-sigil">⊕</div>
       <h2>Laboratory of Fields &amp; Resonance</h2>
       <p>Click anywhere to enter the laboratory</p>
-      <div class="cts-hint">WASD to move · Mouse to look · Press <kbd>H</kbd> to toggle controls</div>
+      <div class="cts-hint">WASD · Mouse look · <kbd>Esc</kbd> releases mouse · <kbd>H</kbd> toggles controls</div>
     </div>
   `;
   document.body.appendChild(overlay);

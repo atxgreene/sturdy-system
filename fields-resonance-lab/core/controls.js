@@ -40,21 +40,32 @@ export function initControls(cam, scn) {
 
   document.addEventListener('click', e => {
     if (controls.isLocked) return;
-    if (e.target.closest('#ui-root') || e.target.closest('#click-to-start')) return;
+    // Only block locking when clicking actual interactive controls (buttons, inputs, expert panel)
+    if (e.target.tagName === 'BUTTON' || e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+    if (e.target.closest('#expert-panel')) return;
     controls.lock();
   });
 
   controls.addEventListener('lock', () => {
     document.getElementById('crosshair').style.display = 'block';
-    document.getElementById('click-to-start').style.display = 'none';
+    const cts = document.getElementById('click-to-start');
+    if (cts) cts.style.display = 'none';
   });
 
   controls.addEventListener('unlock', () => {
     document.getElementById('crosshair').style.display = 'none';
-    document.getElementById('click-to-start').style.display = 'flex';
     state.placing = null;
     grabState = null;
     updateCrosshair();
+    // Update overlay to show "resume" state
+    const cts = document.getElementById('click-to-start');
+    if (cts) {
+      cts.style.display = 'flex';
+      const p = cts.querySelector('p');
+      if (p) p.textContent = 'Click anywhere to resume';
+      const hint = cts.querySelector('.cts-hint');
+      if (hint) hint.textContent = 'Press Esc to release mouse · Space to pause simulation';
+    }
   });
 
   document.addEventListener('mousemove', () => {
