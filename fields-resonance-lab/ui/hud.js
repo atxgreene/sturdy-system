@@ -45,18 +45,29 @@ export function initHUD() {
         <div class="ctrl-row"><kbd>Esc</kbd> Unlock</div>
       </div>
       <div class="ctrl-group">
-        <div class="ctrl-header">ELECTROSTATICS</div>
+        <div class="ctrl-header">CHARGES</div>
         <div class="ctrl-row"><kbd>C</kbd> Place + Charge</div>
         <div class="ctrl-row"><kbd>N</kbd> Place − Charge</div>
-        <div class="ctrl-row"><kbd>F</kbd> Toggle Field Lines</div>
-        <div class="ctrl-row"><kbd>P</kbd> Toggle Equipotentials</div>
-        <div class="ctrl-row"><kbd>T</kbd> Field Probe</div>
+        <div class="ctrl-row"><kbd>G</kbd> Grab / Drop Charge</div>
         <div class="ctrl-row"><kbd>R</kbd> Reset Simulation</div>
+        <div class="ctrl-row"><kbd>1-7</kbd> Load Preset</div>
+        <div class="ctrl-row"><kbd>F5</kbd> Save · <kbd>F9</kbd> Load</div>
+      </div>
+      <div class="ctrl-group">
+        <div class="ctrl-header">VISUALIZATION</div>
+        <div class="ctrl-row"><kbd>F</kbd> Field Lines</div>
+        <div class="ctrl-row"><kbd>P</kbd> Equipotentials</div>
+        <div class="ctrl-row"><kbd>O</kbd> Force Vectors</div>
+        <div class="ctrl-row"><kbd>L</kbd> Flow Particles</div>
+        <div class="ctrl-row"><kbd>K</kbd> Potential Heatmap</div>
+        <div class="ctrl-row"><kbd>T</kbd> Field Probe</div>
+        <div class="ctrl-row"><kbd>B</kbd> Boundary Solver</div>
+        <div class="ctrl-row"><kbd>Q</kbd> Standing Wave</div>
       </div>
       <div class="ctrl-group">
         <div class="ctrl-header">MODES</div>
         <div class="ctrl-row"><kbd>M</kbd> Museum Mode</div>
-        <div class="ctrl-row"><kbd>S</kbd> Student Mode</div>
+        <div class="ctrl-row"><kbd>I</kbd> Student Mode</div>
         <div class="ctrl-row"><kbd>X</kbd> Expert Mode</div>
         <div class="ctrl-row"><kbd>Z</kbd> Sandbox Mode</div>
         <div class="ctrl-row"><kbd>V</kbd> Enter VR</div>

@@ -186,18 +186,17 @@ export function buildScene(canvas) {
 
   const wingShortNames = ['ELECTROSTATICS', 'BOUNDARIES', 'MAGNETISM', 'FREQUENCY', 'HARNESSING'];
   const wingColors = [0x00ccff, 0xff8800, 0xaa00ff, 0x00ff88, 0xffcc00];
+  const wingVersions = ['v0.2', 'v0.3', 'v0.5', 'v0.4', 'v0.6'];
+
+  // Exported wing data for approach detection
+  const wings = [];
 
   for (let i = 0; i < 5; i++) {
-    const angle = (2 * Math.PI * i) / 5 + Math.PI; // offset so main wing faces forward
+    const angle = (2 * Math.PI * i) / 5 + Math.PI;
     const ax = Math.sin(angle) * 17.5;
     const az = Math.cos(angle) * 17.5;
 
-    // Arch sides
-    const archSide = new THREE.Mesh(
-      new THREE.BoxGeometry(0.5, 5.5, 0.8),
-      stoneMat,
-    );
-
+    const archSide = new THREE.Mesh(new THREE.BoxGeometry(0.5, 5.5, 0.8), stoneMat);
     const leftPillar = archSide.clone();
     const rightPillar = archSide.clone();
     const perpAngle = angle + Math.PI / 2;
@@ -208,22 +207,32 @@ export function buildScene(canvas) {
     rightPillar.lookAt(new THREE.Vector3(0, 2.75, 0));
     scene.add(leftPillar, rightPillar);
 
-    // Arch lintel
     const lintel = new THREE.Mesh(new THREE.BoxGeometry(3.2, 0.45, 0.8), bronzeMat);
     lintel.position.set(ax, 5.72, az);
     lintel.lookAt(new THREE.Vector3(0, 5.72, 0));
     scene.add(lintel);
 
-    // Arch glow panel (inactive state)
-    const glowPanel = new THREE.Mesh(new THREE.PlaneGeometry(2.6, 5.0), archGlowMat);
+    // Glow panel — material cloned so we can animate emissive per-wing
+    const glowMat = archGlowMat.clone();
+    const glowPanel = new THREE.Mesh(new THREE.PlaneGeometry(2.6, 5.0), glowMat);
     glowPanel.position.set(ax * 0.96, 2.5, az * 0.96);
     glowPanel.lookAt(new THREE.Vector3(0, 2.5, 0));
     scene.add(glowPanel);
 
-    // Wing label sprite
     const lbl = makeWingLabel(wingShortNames[i], wingColors[i], wingNames[i]);
     lbl.position.set(ax * 0.9, 5.0, az * 0.9);
     scene.add(lbl);
+
+    wings.push({
+      name: wingNames[i],
+      shortName: wingShortNames[i],
+      version: wingVersions[i],
+      color: wingColors[i],
+      worldPos: new THREE.Vector3(ax, 1.7, az),
+      glowMat,
+      lbl,
+      wasApproaching: false,
+    });
   }
 
   // ── CENTRAL BOUNDARY LOOM (simulation table) ────────────────────────────
@@ -305,7 +314,7 @@ export function buildScene(canvas) {
     renderer.setSize(window.innerWidth, window.innerHeight);
   });
 
-  return { scene, renderer, camera, motes };
+  return { scene, renderer, camera, motes, wings };
 }
 
 function makeWingLabel(shortName, color, fullName) {

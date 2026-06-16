@@ -572,6 +572,48 @@ kbd {
   letter-spacing: 2px !important;
 }
 
+/* ── Presets panel (bottom center) ──────────────────────────────────────── */
+
+#presets-panel {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  pointer-events: auto;
+  background: rgba(4,8,18,0.82);
+  border: 1px solid rgba(0,200,220,0.18);
+  padding: 7px 12px;
+}
+
+.presets-title {
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-right: 4px;
+}
+
+.preset-btn {
+  background: rgba(0,200,220,0.08);
+  border: 1px solid rgba(0,200,220,0.2);
+  color: var(--text-dim);
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.preset-btn:hover {
+  background: rgba(0,229,255,0.18);
+  color: var(--teal);
+  border-color: var(--teal);
+}
+
 /* ── Mode buttons (always-visible, pointer-lock-safe) ───────────────────── */
 
 #mode-btns {
