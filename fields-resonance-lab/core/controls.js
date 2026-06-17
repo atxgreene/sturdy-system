@@ -12,6 +12,11 @@ const keys = { w: false, a: false, s: false, d: false, shift: false };
 const MOVE_SPEED = 5.0;
 const SPRINT_MULT = 2.2;
 
+// Smooth velocity (local forward/right in m/s)
+const vel = { fwd: 0, right: 0 };
+const ACCEL = 14;
+const DECEL = 10;
+
 const screenCenter = new THREE.Vector2(0, 0);
 const mainRaycaster = new THREE.Raycaster();
 
@@ -56,6 +61,7 @@ export function initControls(cam, scn) {
     document.getElementById('crosshair').style.display = 'none';
     state.placing = null;
     grabState = null;
+    vel.fwd = 0; vel.right = 0;
     updateCrosshair();
     // Update overlay to show "resume" state
     const cts = document.getElementById('click-to-start');
@@ -201,12 +207,19 @@ function updateProbeFromRaycast() {
 
 export function updateMovement(dt) {
   if (!controls.isLocked) return;
-  const speed = MOVE_SPEED * (keys.shift ? SPRINT_MULT : 1.0) * dt;
 
-  if (keys.w) controls.moveForward(speed);
-  if (keys.s) controls.moveForward(-speed);
-  if (keys.a) controls.moveRight(-speed);
-  if (keys.d) controls.moveRight(speed);
+  const topSpeed = MOVE_SPEED * (keys.shift ? SPRINT_MULT : 1.0);
+  const targetFwd   = (keys.w ? 1 : 0) - (keys.s ? 1 : 0);
+  const targetRight = (keys.d ? 1 : 0) - (keys.a ? 1 : 0);
+
+  // Exponential approach: accelerate toward target, decay to 0 when no key
+  const rampFwd   = targetFwd   !== 0 ? ACCEL : DECEL;
+  const rampRight = targetRight !== 0 ? ACCEL : DECEL;
+  vel.fwd   += (targetFwd   * topSpeed - vel.fwd)   * Math.min(1, rampFwd   * dt);
+  vel.right += (targetRight * topSpeed - vel.right) * Math.min(1, rampRight * dt);
+
+  controls.moveForward(vel.fwd   * dt);
+  controls.moveRight(vel.right * dt);
 
   const pos = controls.getObject().position;
   pos.y = Math.max(1.0, Math.min(8.0, pos.y));

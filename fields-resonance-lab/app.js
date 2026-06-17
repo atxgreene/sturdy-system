@@ -29,7 +29,7 @@ window._labViz = { syncChargeMesh };
 // ── Init ──────────────────────────────────────────────────────────────────────
 
 const canvas = document.getElementById('lab-canvas');
-const { scene, renderer, camera, motes, wings } = buildScene(canvas);
+const { scene, renderer, camera, motes, wings, composer } = buildScene(canvas);
 const controls = initControls(camera, scene);
 
 initVR(renderer);
@@ -76,12 +76,14 @@ function updateWingApproach() {
     const approaching = dist < APPROACH_DIST;
 
     if (approaching && !wing.wasApproaching) {
-      wing.glowMat.emissiveIntensity = 2.0;
+      wing.glowMat.emissiveIntensity = 2.8;
       wing.glowMat.opacity = 1.0;
+      if (wing.accentLight) wing.accentLight.intensity = 1.8;
       showNotification(`${wing.shortName} — ${wing.name} (${wing.version})`);
     } else if (!approaching && wing.wasApproaching) {
-      wing.glowMat.emissiveIntensity = 0.8;
-      wing.glowMat.opacity = 0.85;
+      wing.glowMat.emissiveIntensity = 1.4;
+      wing.glowMat.opacity = 0.7;
+      if (wing.accentLight) wing.accentLight.intensity = 0.0;
     }
     wing.wasApproaching = approaching;
   }
@@ -272,5 +274,5 @@ renderer.setAnimationLoop(() => {
     if (state.mode === 'expert') updateExpertReadout();
   }
 
-  renderer.render(scene, camera);
+  composer.render();
 });
