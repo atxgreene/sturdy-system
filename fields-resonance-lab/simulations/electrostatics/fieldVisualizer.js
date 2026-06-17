@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { state } from '../../core/state.js';
-import { electricField2D, probeAt } from './pointCharges.js';
+import { electricField2D, probeAt, fieldLineSeeds, traceFieldLine2D, computeContourLines } from './pointCharges.js';
 
 // ── Groups ────────────────────────────────────────────────────────────────────
 
@@ -95,12 +95,6 @@ function dispatchWorker(charges, config) {
 }
 
 // ── Sync fallback (used when worker unavailable) ─────────────────────────────
-
-import {
-  fieldLineSeeds,
-  traceFieldLine2D,
-  computeContourLines,
-} from './pointCharges.js';
 
 function rebuildSync(charges, config) {
   const { lineSeeds, stepSize, maxSteps, gridN, equipotentialLevels } = config;
